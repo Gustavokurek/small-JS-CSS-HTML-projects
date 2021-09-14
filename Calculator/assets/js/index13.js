@@ -33,7 +33,7 @@ function getCalculator(){
         },
  
      clickEnter(){
-         document.addEventListener('keyup', function(e){ //usando factory function para o this copntinuar a calculadora e não mudar para document, altetiva no fim da função usar .
+         document.addEventListener('keyup', (e)=>{ //usando factory function para o this copntinuar a calculadora e não mudar para document, altetiva no fim da função usar .
 
              if (e.keyCode===13){
             this.calc();
