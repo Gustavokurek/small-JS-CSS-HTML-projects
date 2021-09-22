@@ -1,73 +1,82 @@
-function  ValidaCpf(){
-
+function  ValidaCpf(Cpf){
+let cpfReal1;
+    Object.defineProperty(this, 'CpfReal',{
+        enumerable: true,
+        get: function() {
+            return cpfReal1;
+        },
+        set: function(valor){
+            return cpfReal1=valor;
+        }   
+        
+  })
 }
 
-ValidaCpf.prototype.Evento=function evento() {
-    this.conteiner=document.querySelector('.conteiner')
+
+ValidaCpf.prototype.retornarCpf=function() {
+    this.conteiner=document.querySelector('.conteiner');
     document.addEventListener('submit',e =>{
-        e.preventDefault();
-        this.InputCpf=document.querySelector('.InputCpf')
-        this.TratarNumero(String(this.InputCpf.value));
-    })
-    
+    e.preventDefault();
+    this.InputCpf=document.querySelector('.InputCpf');
+    this.CpfOriginal=String(this.InputCpf.value); 
+    this.CpfReal=this.CpfOriginal.replace(/\D/g, '');
+    this.Validação();
+    });    
 };
 
-ValidaCpf.prototype.TratarNumero=function (inputCpf) {
-    this.CpfOriginal=inputCpf;
-    this.cpfArray= Array.from(this.CpfOriginal.replace(/\D/g, ''));
-    this.cpfArrayCopy=[...this.cpfArray].slice(0,-2);
-    this.Soma(this.cpfArrayCopy);
-}
-ValidaCpf.prototype.Soma=function(Array) {
-    let contador10=10;
-    let contador11=11;
+ValidaCpf.prototype.Validação=function(){
+    if (typeof this.CpfReal==='undefined') return alert('CPF Inválido');
+    if(this.CpfReal.length!==11) return alert('CPF Inválido');
+    if(this.isSequencia()===this.CpfReal) return alert('CPF Inválido');
 
-    this.somaMulti=Array.reduce((ac,valor)=>{
-    if(Array.length===9){
-    ac.push(Number(valor)*contador10);
-    contador10--;
-    return ac
+    let CpfParcial=this.CpfReal.slice(0,-2);
+
+    const digito1= this.criaDigito(CpfParcial);
+    CpfParcial=CpfParcial.concat(digito1);
+    const digito2= this.criaDigito(CpfParcial);
+    CpfParcial=CpfParcial.concat(digito2);
+
+    if (CpfParcial===this.CpfReal) return alert('CPF válido');
+    return  alert('CPF Inválido');
+};
+
+
+
+
+
+
+
+ValidaCpf.prototype.criaDigito=function(CpfParcial){
+    const cpfArray=Array.from(CpfParcial);
+    let contagem=cpfArray.length + 1;
+    ;
+
+    const total= cpfArray.reduce((ac,valor)=>{
+    if(cpfArray.length===9){
+    ac.push(Number(valor)*contagem);
+    contagem--;
+    return ac;
 }
 
-    if(Array.length===10){
-    ac.push(Number(valor)*contador11);
-    contador11--;
-    return ac
+    if(cpfArray.length===10){
+    ac.push(Number(valor)*contagem);
+    contagem--;
+    return ac;
     };
    
 },[]).reduce((ac, valor)=> ac+=valor);
-this.Desfrag(this.somaMulti);
-   
-}
 
-
- ValidaCpf.prototype.Desfrag=function(numero) {
-    this.numero= 11 - numero%11 < 9 ? 11 - numero%11 : 0;
-    this.inserir(this.numero);
- }
-
-ValidaCpf.prototype.inserir=function(numero) {
-    this.cpfArrayCopy.push(String(numero))
-    if (this.cpfArrayCopy.length===10){ 
-    return this.Soma(this.cpfArrayCopy)
+    const digito= 11-(total%11);
+    return digito>9 ? String(0) :String(digito);
 };
-    return this.Validação(this.cpfArrayCopy);
-    
-    
-}
 
-ValidaCpf.prototype.Validação=function(array) {
-   this.resultado=array.join()===this.cpfArray.join() ? 'CPF VÁLIDO': 'CPF INVÁLIDO';
-    this.setResultado(this.resultado)
-}
-
-ValidaCpf.prototype.setResultado=function(resultado) {
-    this.resultado=document.querySelector('.resultado')
-    this.resultado.innerHTML=resultado;
-    
+ValidaCpf.prototype.isSequencia=function(){
+    return this.CpfReal[0].repeat(this.CpfReal.length);
 }
 
 
 
-const Cpf= new ValidaCpf(this.InputCpf);
-Cpf.Evento();
+const Cpf= new ValidaCpf();
+Cpf.retornarCpf();
+
+
