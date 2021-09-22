@@ -42,10 +42,6 @@ ValidaCpf.prototype.Validação=function(){
 
 
 
-
-
-
-
 ValidaCpf.prototype.criaDigito=function(CpfParcial){
     const cpfArray=Array.from(CpfParcial);
     let contagem=cpfArray.length + 1;
