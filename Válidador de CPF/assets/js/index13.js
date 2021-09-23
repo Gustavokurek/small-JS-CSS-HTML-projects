@@ -48,17 +48,9 @@ ValidaCpf.prototype.criaDigito=function(CpfParcial){
     ;
 
     const total= cpfArray.reduce((ac,valor)=>{
-    if(cpfArray.length===9){
     ac.push(Number(valor)*contagem);
     contagem--;
     return ac;
-}
-
-    if(cpfArray.length===10){
-    ac.push(Number(valor)*contagem);
-    contagem--;
-    return ac;
-    };
    
 },[]).reduce((ac, valor)=> ac+=valor);
 
