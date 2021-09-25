@@ -52,7 +52,6 @@ body{
 }
     
     
-
 button {
     border: none;
     background-color: var(--secundary-color);
@@ -71,12 +70,21 @@ form button:hover {
     
 }
 
-.paragrafo-resultado, .bad {
+.certo {
     background-color: #04d361;
     padding: 10px 20px;
-    
+
 }
 
 .bad {
-    background-color: red;
+    background-color: #d30404;
+    padding: 10px 20px;
+
+}
+
+.check-error {
+    color: red;
+    font-size: 0.6em;
+    position: relative;
+    top: -10px
 }
